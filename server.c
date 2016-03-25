@@ -60,19 +60,19 @@ int main( int argc, char *argv[] ) {
    
    
    //open a file for reading and writing
-   fp = fopen("index.html", "w+");
+   //fp = fopen("index.html", "w+");
    
    //Write data to the file 
    //fwrite(ch, strlen(ch) + 1, 1, fp);
    
    /* Seek to the beginning of the file */
-   fseek(fp, SEEK_SET, 0);
+   //fseek(fp, SEEK_SET, 0);
    
    /* Read and display data */
-   fread(holder, strlen(ch)+1, 1, fp);
-   printf("%s\n", holder);
+   //fread(holder, strlen(ch)+1, 1, fp);
+   //printf("%s\n", holder);
 
-   fclose(fp);  
+   //fclose(fp);  
    
       recv(newsockfd, buffer, strlen(buffer), 0);    
       printf("The buffer has .... %s\n", buffer);    
