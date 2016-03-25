@@ -9,7 +9,7 @@
 int main( int argc, char *argv[] ) {
    int sockfd, newsockfd, portno, clilen;
    char buffer[256];
-   char parser[64];
+   char parser[32];
    struct sockaddr_in serv_addr, cli_addr;
    int  n;
    
@@ -58,14 +58,30 @@ int main( int argc, char *argv[] ) {
       exit(1);
    }
    
-   printf("Relayed  message:\n%s\n",buffer);
+   printf("Relayed  message:\n%s\n\n",buffer);
    
 
 
 /*---------------------------------------------------------------------------*/
-   
-   
-   
+  strncpy(parser, buffer,32);
+  printf("parserarray: \n%s\n\n",parser);
+  int i;
+ // char isget[2]
+  for(i=0;i<32;i++){
+    if(parser[i]=='G' && parser[i+1]=='E' && parser[i+2]=='T'){
+      printf("\n\nGET request\n");
+      char isget[3] = {'G','E','T'};
+      if (isget != 0){
+        int j;
+        char website[16];
+        for(j=0; parser[j+4] != ' '; j++){
+          website[j] = parser[j+5];
+        }
+      printf("\n\nthis is the website: %s \n\n",website);
+      }
+    }
+  }
+    
    
    
    
