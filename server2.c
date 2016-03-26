@@ -23,7 +23,7 @@ int main( int argc, char *argv[] ) {
    
    /* Initializing the socket structure */
 
-   portno = 5015;
+   portno = 8888;
    
    serv_addr.sin_family = AF_INET;
    serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -58,18 +58,19 @@ int main( int argc, char *argv[] ) {
       exit(1);
    }
    
-   printf("Relayed  message:\n%s\n\n",buffer);
+   printf("\nRelayed  message:\n%s\n\n",buffer);
    
 
 
-/*---------------------------------------------------------------------------*/
+/*Check if there is a GET request, return the website URL requested*/
+  
   strncpy(parser, buffer,32);
-  printf("parserarray: \n%s\n\n",parser);
+  //printf("parserarray: \n%s\n\n",parser);
+ 
   int i;
- // char isget[2]
   for(i=0;i<32;i++){
     if(parser[i]=='G' && parser[i+1]=='E' && parser[i+2]=='T'){
-      printf("\n\nGET request\n");
+      printf("\nGET request\n");
       char isget[3] = {'G','E','T'};
       if (isget != 0){
         int j;
@@ -77,7 +78,7 @@ int main( int argc, char *argv[] ) {
         for(j=0; parser[j+4] != ' '; j++){
           website[j] = parser[j+5];
         }
-      printf("\n\nthis is the website: %s \n\n",website);
+      printf("\n\nrequested file: %s \n\n",website);
       }
     }
   }
