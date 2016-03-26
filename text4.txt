@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Socket programming</title>
+</head>
+
+<body>
+<p> All about socket programming </p>
+</body>
+
+</html>
