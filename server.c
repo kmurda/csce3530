@@ -6,11 +6,12 @@
 
 int main( int argc, char *argv[] ) {
    int sockfd, newsockfd, portno, clilen;
-   char buffer[256], holder[] = "";
+   char buffer[256];
+   char parser[32];
    struct sockaddr_in serv_addr, cli_addr;
    int  n;
    
-   FILE *fp;
+   char file[80];
    
    /* Creating a socket */
    sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -42,7 +43,7 @@ int main( int argc, char *argv[] ) {
    
    /* Accept connection request from the client */
    newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
-	
+
    if (newsockfd < 0) {
       printf("ERROR on accept");
       exit(1);
@@ -52,39 +53,63 @@ int main( int argc, char *argv[] ) {
    bzero(buffer,256);
    n = read( newsockfd,buffer,255 );
    
-   //printf("Current buffer %s\n", buffer);
+   printf("Current buffer %s\n", buffer);
    
    if(newsockfd > 0){
-	   printf("The Client is connected...\n");	   
+           printf("The Client is connected...\n");         
    }
    
+   /********************************************************************************/
+  strncpy(parser, buffer,32);
+  printf("parserarray: \n%s\n\n",parser);
+  int i;
+ // char isget[2]
+  for(i=0;i<32;i++){
+    if(parser[i]=='G' && parser[i+1]=='E' && parser[i+2]=='T'){
+      printf("\n\nGET request\n");
+      char isget[3] = {'G','E','T'};
+      if (isget != 0){
+        int j;
+                char website[16];
+        for(j=0; parser[j+4] != ' '; j++){
+          website[j] = parser[j+5];
+                  file[j] = parser[j+5];
+        }
+      printf("This is the website: %s \n\n",website);
+      }
+    }
+  }
+  
+  /********************************************************************************/
    
-   //open a file for reading and writing
-   //fp = fopen("index.html", "w+");
-   
-   //Write data to the file 
-   //fwrite(ch, strlen(ch) + 1, 1, fp);
-   
-   /* Seek to the beginning of the file */
-   //fseek(fp, SEEK_SET, 0);
-   
-   /* Read and display data */
-   //fread(holder, strlen(ch)+1, 1, fp);
-   //printf("%s\n", holder);
+        FILE *in_file,
+                 *out_file;
+        char ch;
 
-   //fclose(fp);  
+        in_file = fopen("index.html", "r");
+        out_file = fopen("home.html", "w");
+
+        for(ch = getc(in_file); ch != EOF; ch = getc(in_file)){
+                putc(ch, out_file);
+        }
+
+/*********************************************************************************/
+
    
-      recv(newsockfd, buffer, strlen(buffer), 0);    
+      //recv(newsockfd, buffer, strlen(buffer), 0);    
       printf("The buffer has .... %s\n", buffer);    
       send(newsockfd, "HTTP/1.1 200 OK\n", 16, 0);
       send(newsockfd, "Content-length: 46\n", 19, 0);
       send(newsockfd, "Content-Type: text/html\n\n", 25, 0);
       send(newsockfd, "<html><body><H1>Hello world</H1></body></html>", 46, 0);
-	  //send(newsockfd, fpw, strlen(fpw), 0);
-	  //send(newsockfd, fpw, strlen(fpw), 0);
+      //send(newsockfd, out_file, 1024, 0);
+          //send(newsockfd, fpw, strlen(fpw), 0);
+          //send(newsockfd, fpw, strlen(fpw), 0);
       close(newsockfd);    
-	  
-   close(sockfd);    
+          
+   close(sockfd);  
+        fclose(in_file);
+        fclose(out_file);   
 
    return 0;
 }
