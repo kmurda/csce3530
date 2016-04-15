@@ -1,6 +1,21 @@
+#include <stdio.h>
 #include <string.h>
 
-                            
+
+
+struct tcp_hdr{
+                short int src;
+                short int des;
+                int seq;
+                int ack;
+                short int hdr_flags;
+                short int rec;
+                short int cksum;
+                short int ptr;
+                int opt;
+              };
+                
+                 
 int main(void)
 {
  
@@ -45,3 +60,4 @@ int main(void)
   printf("Checksum Value: 0x%04X\n", (0xFFFF^cksum));
 
 }
+   
