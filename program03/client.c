@@ -8,6 +8,25 @@
 
 #include "segment.h"
 
+
+int checksum(unsigned short int cksum_arr[]){
+    
+  unsigned int i,sum=0, cksum;
+  
+  for (i=0;i<12;i++)               // Compute sum
+  sum = sum + cksum_arr[i];
+
+  cksum = sum >> 16;              // Fold once
+  sum = sum & 0x0000FFFF; 
+  sum = cksum + sum;
+
+  cksum = sum >> 16;             // Fold once more
+  sum = sum & 0x0000FFFF;
+  cksum = cksum + sum;
+ 
+ return cksum;
+}
+
 int main(int argc, char *argv[]) {
    
    
@@ -45,17 +64,17 @@ int main(int argc, char *argv[]) {
    
    /* Request for a message from the user; this will be relayed to the server*/
 	
-   printf("Please enter the message: ");
-   bzero(buffer,256);
-   fgets(buffer,255,stdin);
+   //printf("Please enter the message: ");
+   //bzero(buffer,256);
+   //fgets(buffer,255,stdin);
    
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   struct tcp_hdr tcp_seg;
   unsigned short int cksum_arr[12];
   unsigned int i,sum=0, cksum;
 
-  tcp_seg.src = portno;
-  tcp_seg.des = 2200;
+  tcp_seg.src = 49200;
+  tcp_seg.des = portno;
   tcp_seg.seq = 1;
   tcp_seg.ack = 0;
   tcp_seg.hdr_flags = 0x6002;
@@ -66,10 +85,9 @@ int main(int argc, char *argv[]) {
 
    
   memcpy(cksum_arr, &tcp_seg, 24);
-  
   tcp_seg.cksum = checksum(cksum_arr);
    
-   memcpy(buffer, tcp_seg.src, 16);
+  memcpy(buffer, tcp_seg.src, 16);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
   
   
@@ -108,3 +126,4 @@ int main(int argc, char *argv[]) {
    
    return 0;
 }
+
