@@ -69,13 +69,14 @@ int main(int argc, char *argv[]) {
   
   tcp_seg.cksum = checksum(cksum_arr);
    
+   memcpy(buffer, tcp_seg.src, 16);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
   
   
    /* Send message to the server */
    
-   //n = write(sockfd, buffer, strlen(buffer));
-   n = write(sockfd, tcp_seg, 192);
+   n = write(sockfd, buffer, strlen(buffer));
+   //n = write(sockfd, tcp_seg, 192);
    
    if (n < 0) {
       printf("ERROR while writing to the socket\n");

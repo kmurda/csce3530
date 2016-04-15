@@ -15,6 +15,8 @@ int main( int argc, char *argv[] ) {
    char buffer[256];
    struct sockaddr_in serv_addr, cli_addr;
    int  n;
+   
+   struct tcp_hdr tcp_seg;
 
 
    /* Creating a socket */
@@ -27,7 +29,7 @@ int main( int argc, char *argv[] ) {
  
    
    /* Initializing the socket structure */
-   portno = 5015;
+   portno = 49155;
    
    serv_addr.sin_family = AF_INET;
    serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -57,11 +59,9 @@ int main( int argc, char *argv[] ) {
    
    /* Begin communication */
    bzero(buffer,256);	
-   n = read(newsockfd,buffer,255 );
-   
-   
-  // unsigned short int cksum_arr[12];
-  //n = read(newsockfd,cksum_arr,24 );
+    n = read(newsockfd,buffer,16);
+  //n = read(newsockfd,tcp_seg,192);
+   tcp_seg.src = buffer;
    
    if (n < 0) {
       printf("ERROR reading from socket\n");
@@ -69,12 +69,12 @@ int main( int argc, char *argv[] ) {
    }
   
  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
- 	/*declarations for tcp segment*/
+ 	/*declarations for tcp segment/
 	struct tcp_hdr tcp_seg;
 	unsigned int i,sum=0, cksum;
 	//memcpy(cksum_arr, newsockfd,24);
 	
-	/*populating tcp segment*/
+	/*populating tcp segment/
 	tcp_seg.src = portno;
 	tcp_seg.des = 2200;
 	tcp_seg.seq = 1;
@@ -84,10 +84,20 @@ int main( int argc, char *argv[] ) {
 	tcp_seg.cksum = 0;
 	tcp_seg.ptr = 0;
 	tcp_seg.opt = 0;  
- //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~// 
+ //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/*/ 
 
    
-   printf("Relayed  message: %s\n",buffer);
+   
+  printf("0x%04X\n", tcp_seg.src); // Printing all values
+  printf("0x%04X\n", tcp_seg.des);
+  printf("0x%08X\n", tcp_seg.seq);
+  printf("0x%08X\n", tcp_seg.ack);
+  printf("0x%04X\n", tcp_seg.hdr_flags);
+  printf("0x%04X\n", tcp_seg.rec);
+  printf("0x%04X\n", tcp_seg.cksum);
+  printf("0x%04X\n", tcp_seg.ptr);
+  printf("0x%08X\n", tcp_seg.opt);
+   //printf("Relayed  message: %s\n",buffer);
 
    
    /* Write a response to the client */
