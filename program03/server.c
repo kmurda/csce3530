@@ -79,7 +79,9 @@ int main( int argc, char *argv[] ) {
    bzero(buffer,256);	
     n = read(newsockfd,buffer,16);
   //n = read(newsockfd,tcp_seg,192);
-   tcp_seg.src = buffer;
+   
+   printf("buffer has %s", buffer);
+   //tcp_seg.des = (short int)buffer;
    
    if (n < 0) {
       printf("ERROR reading from socket\n");
@@ -87,9 +89,9 @@ int main( int argc, char *argv[] ) {
    }
   
  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
- 	/*declarations for tcp segment/
-	struct tcp_hdr tcp_seg;
-	unsigned int i,sum=0, cksum;
+ 	/*declarations for tcp segment*/
+	//struct tcp_hdr tcp_seg;
+	//unsigned int i,sum=0, cksum;
 	//memcpy(cksum_arr, newsockfd,24);
 	
 	/*populating tcp segment/
@@ -105,8 +107,8 @@ int main( int argc, char *argv[] ) {
  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/*/ 
 
    
-   
-  printf("0x%04X\n", tcp_seg.src); // Printing all values
+  /* Printing all values */
+  printf("0x%04X\n", tcp_seg.src); 
   printf("0x%04X\n", tcp_seg.des);
   printf("0x%08X\n", tcp_seg.seq);
   printf("0x%08X\n", tcp_seg.ack);
@@ -115,7 +117,7 @@ int main( int argc, char *argv[] ) {
   printf("0x%04X\n", tcp_seg.cksum);
   printf("0x%04X\n", tcp_seg.ptr);
   printf("0x%08X\n", tcp_seg.opt);
-   //printf("Relayed  message: %s\n",buffer);
+  //printf("Relayed  message: %s\n",buffer);
 
    
    /* Write a response to the client */

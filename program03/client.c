@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
 	
    portno = atoi(argv[1]);
    
+   
    /* Create a socket */
    sockfd = socket(AF_INET, SOCK_STREAM, 0);
    
@@ -56,14 +57,15 @@ int main(int argc, char *argv[]) {
    serv_addr.sin_addr.s_addr=inet_addr("129.120.151.94"); 
    serv_addr.sin_port = htons(portno);
    
+   
    /* Connecting to the server */
    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
       printf("ERROR while attempting to connect\n");
       exit(1);
    }
    
+   
    /* Request for a message from the user; this will be relayed to the server*/
-	
    //printf("Please enter the message: ");
    //bzero(buffer,256);
    //fgets(buffer,255,stdin);
@@ -87,7 +89,7 @@ int main(int argc, char *argv[]) {
   memcpy(cksum_arr, &tcp_seg, 24);
   tcp_seg.cksum = checksum(cksum_arr);
    
-  memcpy(buffer, tcp_seg.src, 16);
+  memcpy(buffer, tcp_seg.src, 24);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
   
   
@@ -101,7 +103,8 @@ int main(int argc, char *argv[]) {
       exit(1);
    }
    
-   /* Reading the server response */
+  
+  /* Reading the server response */
    n = read(sockfd, buffer, 255);
    //n = read(sockfd, cksum_arr, 24);
    
