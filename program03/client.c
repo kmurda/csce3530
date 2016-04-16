@@ -93,11 +93,9 @@ int main(int argc, char *argv[]) {
   
   
   for(i = 0; i < 9; i++){
-	  sprintf(buffer, "%d",cksum_arr[i]);
-	  printf("DEBUG_TAG_buffer:::::: %s\n", buffer);
+	  printf("DEBUG_TAG_CHKSUM[%d]:::::: %d\n", i, cksum_arr[i]);
   }
- 
- 
+
    
   //memcpy(buffer, (char)tcp_seg.src, 24);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
@@ -105,7 +103,7 @@ int main(int argc, char *argv[]) {
   
    /* Send message to the server */
    
-   n = write(sockfd, buffer, strlen(buffer));
+   n = send(sockfd, cksum_arr, 192,0);
    //n = write(sockfd, "49200", 192);
    
    if (n < 0) {

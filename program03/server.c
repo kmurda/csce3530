@@ -34,6 +34,7 @@ int main( int argc, char *argv[] ) {
    struct sockaddr_in serv_addr, cli_addr;
    int  n, i;
    short int tcp_src;
+   unsigned short int cksum_arr[12];
    
    struct tcp_hdr tcp_seg;
 
@@ -48,7 +49,7 @@ int main( int argc, char *argv[] ) {
  
    
    /* Initializing the socket structure */
-   portno = 49156;
+   portno = 49157;
    
    serv_addr.sin_family = AF_INET;
    serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -77,12 +78,12 @@ int main( int argc, char *argv[] ) {
 
    
    /* Begin communication */
-   bzero(buffer,256);	
-   n = read(newsockfd,buffer,16);
-  //n = read(newsockfd,tcp_src,192);
+   //bzero(buffer,256);	
+   n = recv(newsockfd,cksum_arr,16,0);
+  //n = read(newsockfd,tcp_src,192);	
    
      for(i = 0; i < 9; i++){
-	  printf("DEBUGTAG::::: %s\n", buffer);
+	  printf("DEBUGTAG::::: %d\n", cksum_arr[i]);
   }
    //tcp_seg.des = (short int)buffer;
    
