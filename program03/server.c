@@ -32,7 +32,8 @@ int main( int argc, char *argv[] ) {
    int sockfd, newsockfd, portno, clilen;
    char buffer[256];
    struct sockaddr_in serv_addr, cli_addr;
-   int  n;
+   int  n, i;
+   short int tcp_src;
    
    struct tcp_hdr tcp_seg;
 
@@ -47,7 +48,7 @@ int main( int argc, char *argv[] ) {
  
    
    /* Initializing the socket structure */
-   portno = 49155;
+   portno = 49156;
    
    serv_addr.sin_family = AF_INET;
    serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -77,10 +78,12 @@ int main( int argc, char *argv[] ) {
    
    /* Begin communication */
    bzero(buffer,256);	
-    n = read(newsockfd,buffer,16);
-  //n = read(newsockfd,tcp_seg,192);
+   n = read(newsockfd,buffer,16);
+  //n = read(newsockfd,tcp_src,192);
    
-   printf("buffer has %s", buffer);
+     for(i = 0; i < 9; i++){
+	  printf("DEBUGTAG::::: %s\n", buffer);
+  }
    //tcp_seg.des = (short int)buffer;
    
    if (n < 0) {

@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
   struct tcp_hdr tcp_seg;
   unsigned short int cksum_arr[12];
   unsigned int i,sum=0, cksum;
+  
 
   tcp_seg.src = 49200;
   tcp_seg.des = portno;
@@ -85,18 +86,27 @@ int main(int argc, char *argv[]) {
   tcp_seg.ptr = 0;
   tcp_seg.opt = 0;
 
+  printf("%hu\n", tcp_seg.src);
    
   memcpy(cksum_arr, &tcp_seg, 24);
   tcp_seg.cksum = checksum(cksum_arr);
+  
+  
+  for(i = 0; i < 9; i++){
+	  sprintf(buffer, "%d",cksum_arr[i]);
+	  printf("DEBUG_TAG_buffer:::::: %s\n", buffer);
+  }
+ 
+ 
    
-  memcpy(buffer, tcp_seg.src, 24);
+  //memcpy(buffer, (char)tcp_seg.src, 24);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
   
   
    /* Send message to the server */
    
    n = write(sockfd, buffer, strlen(buffer));
-   //n = write(sockfd, tcp_seg, 192);
+   //n = write(sockfd, "49200", 192);
    
    if (n < 0) {
       printf("ERROR while writing to the socket\n");
