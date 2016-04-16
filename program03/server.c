@@ -94,38 +94,40 @@ int main( int argc, char *argv[] ) {
   
  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
  	/*declarations for tcp segment*/
-	//struct tcp_hdr tcp_seg;
-	//unsigned int i,sum=0, cksum;
-	//memcpy(cksum_arr, newsockfd,24);
 	
-	/*populating tcp segment/
+	//populating tcp segment
+	
 	tcp_seg.src = portno;
-	tcp_seg.des = 2200;
-	tcp_seg.seq = 1;
-	tcp_seg.ack = 2;
+	tcp_seg.des = cksum_arr[0];
+	tcp_seg.seq = 2;
+	tcp_seg.ack = cksum_arr[2]+1;
 	tcp_seg.hdr_flags = 0x2333;
 	tcp_seg.rec = 0;
-	tcp_seg.cksum = 0;
+	tcp_seg.cksum = checksum(cksum_arr);
 	tcp_seg.ptr = 0;
 	tcp_seg.opt = 0;  
- //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/*/ 
+ //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/ 
 
    
   /* Printing all values */
-  printf("0x%04X\n", tcp_seg.src); 
-  printf("0x%04X\n", tcp_seg.des);
-  printf("0x%08X\n", tcp_seg.seq);
-  printf("0x%08X\n", tcp_seg.ack);
-  printf("0x%04X\n", tcp_seg.hdr_flags);
-  printf("0x%04X\n", tcp_seg.rec);
-  printf("0x%04X\n", tcp_seg.cksum);
-  printf("0x%04X\n", tcp_seg.ptr);
-  printf("0x%08X\n", tcp_seg.opt);
+	printf("SRC Port:%d\n", cksum_arr[0]); // Printing all values
+	printf("DES Port:%d\n", cksum_arr[1]);
+	printf("SEQ  NUM:%d\n", cksum_arr[2]);
+	printf("ACK  NUM:%d\n", cksum_arr[3]);
+	printf("HDR FLAG:%d\n", cksum_arr[4]);
+	printf("REC  NUM:%d\n", cksum_arr[5]);
+	printf("CKSUMNUM:%d\n", cksum_arr[6]);
+	printf("PTR  NUM:%d\n", cksum_arr[7]);
+	printf("OPT  NUM:%d\n", cksum_arr[8]);
   //printf("Relayed  message: %s\n",buffer);
 
    
+   
+   memcpy(cksum_arr, &tcp_seg, 24);
+   
    /* Write a response to the client */
-   n = write(newsockfd,"Message received\n",18);
+   //n = write(newsockfd,"Message received\n",18);
+   n = send(newsockfd, cksum_arr, 192,0);
    
    if (n < 0) {
       printf("ERROR writing to socket\n");

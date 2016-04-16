@@ -113,10 +113,12 @@ int main(int argc, char *argv[]) {
    
   
   /* Reading the server response */
-   n = read(sockfd, buffer, 255);
-   //n = read(sockfd, cksum_arr, 24);
+   //n = read(sockfd, cksum_arr, 255);
+   n = recv(sockfd,cksum_arr,16,0);
    
    //memcpy(tcp_seg, &cksum_arr, 24);
+   memcpy(cksum_arr, &cksum_arr, 24);
+
    
    if (n < 0) {
       printf("ERROR while reading from the socket\n");
@@ -124,15 +126,15 @@ int main(int argc, char *argv[]) {
    }
 	
    //printf("%s\n",buffer);
-	printf("0x%04X\n", tcp_seg.src); // Printing all values
-	printf("0x%04X\n", tcp_seg.des);
-	printf("0x%08X\n", tcp_seg.seq);
-	printf("0x%08X\n", tcp_seg.ack);
-	printf("0x%04X\n", tcp_seg.hdr_flags);
-	printf("0x%04X\n", tcp_seg.rec);
-	printf("0x%04X\n", tcp_seg.cksum);
-	printf("0x%04X\n", tcp_seg.ptr);
-	printf("0x%08X\n", tcp_seg.opt);
+	printf("SRC Port:%d\n", cksum_arr[1]); // Printing all values
+	printf("DES Port:%d\n", cksum_arr[0]);
+	printf("SEQ  NUM:%d\n", cksum_arr[2]);
+	printf("ACK  NUM:%d\n", cksum_arr[3]);
+	printf("HDR FLAG:%d\n", cksum_arr[4]);
+	printf("REC  NUM:%d\n", cksum_arr[5]);
+	printf("CKSUMNUM:%d\n", cksum_arr[6]);
+	printf("PTR  NUM:%d\n", cksum_arr[7]);
+	printf("OPT  NUM:%d\n", cksum_arr[8]);
    
    
    return 0;
