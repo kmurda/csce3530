@@ -78,25 +78,25 @@ int main( int argc, char *argv[] ) {
 
    
    /* Begin communication */
-   //bzero(buffer,256);	
-   n = recv(newsockfd,cksum_arr,16,0);
-  //n = read(newsockfd,tcp_src,192);	
    
-     for(i = 0; i < 9; i++){
-	  printf("DEBUGTAG::::: %d\n", cksum_arr[i]);
+   //bzero(buffer,256);	
+
+   
+//~~~~~~~~RECIEVE THE CONNECTION REQUEST SEGMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~// 
+   n = recv(newsockfd,cksum_arr,16,0);
+ //n = read(newsockfd,tcp_src,192);	
+   
+     
+	 for(i = 0; i < 9; i++){
+	  printf("::::: %d\n", cksum_arr[i]);
   }
-   //tcp_seg.des = (short int)buffer;
    
    if (n < 0) {
       printf("ERROR reading from socket\n");
       exit(1);
    }
-  
- //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
- 	/*declarations for tcp segment*/
-	
-	//populating tcp segment
-	
+ 
+//~~~~~~~~~~~~POPULATING THE SEGMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
 	tcp_seg.src = portno;
 	tcp_seg.des = cksum_arr[0];
 	tcp_seg.seq = 2;
@@ -106,29 +106,35 @@ int main( int argc, char *argv[] ) {
 	tcp_seg.cksum = checksum(cksum_arr);
 	tcp_seg.ptr = 0;
 	tcp_seg.opt = 0;  
- //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/ 
-
+//~~~~~~~~~~~~PRINT THE VALUES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~// 
+	printf("The recieved TCP segment looks like:\n");
+	printf("SRC Port:  %d\n", cksum_arr[0]);
+	printf("DES Port:  %d\n", cksum_arr[1]);
+	printf("SEQ  NUM:  %d\n", cksum_arr[2]);
+	printf("ACK  NUM:  %d\n", cksum_arr[3]);
+	printf("HDR FLAG:  %d\n", cksum_arr[4]);
+	printf("REC  NUM:  %d\n", cksum_arr[5]);
+	printf("CKSUMNUM:  %d\n", cksum_arr[6]);
+	printf("PTR  NUM:  %d\n", cksum_arr[7]);
+	printf("OPT  NUM:  %d\n", cksum_arr[8]);
+//~~~~~~~~~~~~GENERATING TCP RESPONSE MESSAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
+    tcp_seg.src = portno;
+	tcp_seg.des = cksum_arr[0];
+	tcp_seg.seq = 13;
+	tcp_seg.ack = cksum_arr[2]+1;
+	tcp_seg.hdr_flags = 0x6012;
+	tcp_seg.rec = 0;
+	tcp_seg.cksum = checksum(cksum_arr);
+	tcp_seg.ptr = 0;
+	tcp_seg.opt = 0;  
+  
+  memcpy(cksum_arr, &tcp_seg, 24);
    
-  /* Printing all values */
-	printf("SRC Port:%d\n", cksum_arr[0]); // Printing all values
-	printf("DES Port:%d\n", cksum_arr[1]);
-	printf("SEQ  NUM:%d\n", cksum_arr[2]);
-	printf("ACK  NUM:%d\n", cksum_arr[3]);
-	printf("HDR FLAG:%d\n", cksum_arr[4]);
-	printf("REC  NUM:%d\n", cksum_arr[5]);
-	printf("CKSUMNUM:%d\n", cksum_arr[6]);
-	printf("PTR  NUM:%d\n", cksum_arr[7]);
-	printf("OPT  NUM:%d\n", cksum_arr[8]);
-  //printf("Relayed  message: %s\n",buffer);
-
-   
-   
-   memcpy(cksum_arr, &tcp_seg, 24);
-   
-   /* Write a response to the client */
-   //n = write(newsockfd,"Message received\n",18);
+//~~~~~~~~~~~~~~/* Write a response to the client */~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+ //n = write(newsockfd,"Message received\n",18);
    n = send(newsockfd, cksum_arr, 192,0);
-   
+ 
+ 
    if (n < 0) {
       printf("ERROR writing to socket\n");
       exit(1);

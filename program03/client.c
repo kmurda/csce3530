@@ -70,55 +70,59 @@ int main(int argc, char *argv[]) {
    //bzero(buffer,256);
    //fgets(buffer,255,stdin);
    
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   struct tcp_hdr tcp_seg;
   unsigned short int cksum_arr[12];
   unsigned int i,sum=0, cksum;
   
-
+  //the TCP segment
   tcp_seg.src = 49200;
   tcp_seg.des = portno;
-  tcp_seg.seq = 1;
+  tcp_seg.seq = 7;
   tcp_seg.ack = 0;
   tcp_seg.hdr_flags = 0x6002;
   tcp_seg.rec = 0;
   tcp_seg.cksum = 0;
   tcp_seg.ptr = 0;
   tcp_seg.opt = 0;
-
-  printf("%hu\n", tcp_seg.src);
-   
+  
+  tcp_seg.cksum = checksum(cksum_arr);   
   memcpy(cksum_arr, &tcp_seg, 24);
-  tcp_seg.cksum = checksum(cksum_arr);
   
-  
+  printf("The initial TCP segment to send looks like:")
   for(i = 0; i < 9; i++){
-	  printf("DEBUG_TAG_CHKSUM[%d]:::::: %d\n", i, cksum_arr[i]);
+	  printf(":::::: %d\n", i, cksum_arr[i]);
   }
+//~~~~~SEND MESSAGE TO THE SERVER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
 
-   
-  //memcpy(buffer, (char)tcp_seg.src, 24);
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
-  
-  
-   /* Send message to the server */
-   
    n = send(sockfd, cksum_arr, 192,0);
-   //n = write(sockfd, "49200", 192);
    
    if (n < 0) {
       printf("ERROR while writing to the socket\n");
       exit(1);
    }
    
-  
-  /* Reading the server response */
-   //n = read(sockfd, cksum_arr, 255);
+ 
+//~~~~~~READING THE SERVER RESPONSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+   
    n = recv(sockfd,cksum_arr,16,0);
    
-   //memcpy(tcp_seg, &cksum_arr, 24);
-   memcpy(cksum_arr, &cksum_arr, 24);
+//~~~~~~GENERATING TCP RESPONSE MESSAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+   memcpy(cksum_arr, &cksum_arr, 24);
+   
+	tcp_seg.src = portno;
+	tcp_seg.des = cksum_arr[0];
+	tcp_seg.seq = 2;
+	tcp_seg.ack = cksum_arr[2]+1;
+	tcp_seg.hdr_flags = 0x6012;
+	tcp_seg.rec = 0;
+	tcp_seg.cksum = checksum(cksum_arr);
+	tcp_seg.ptr = 0;
+	tcp_seg.opt = 0;  
+	
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
+   
    
    if (n < 0) {
       printf("ERROR while reading from the socket\n");
@@ -126,7 +130,7 @@ int main(int argc, char *argv[]) {
    }
 	
    //printf("%s\n",buffer);
-	printf("SRC Port:%d\n", cksum_arr[1]); // Printing all values
+	printf("SRC Port:%d\n", cksum_arr[1]);
 	printf("DES Port:%d\n", cksum_arr[0]);
 	printf("SEQ  NUM:%d\n", cksum_arr[2]);
 	printf("ACK  NUM:%d\n", cksum_arr[3]);
