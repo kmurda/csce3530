@@ -87,13 +87,21 @@ int main(int argc, char *argv[]) {
   tcp_seg.opt = 0;
   
   tcp_seg.cksum = checksum(cksum_arr);   
+  
   memcpy(cksum_arr, &tcp_seg, 24);
   
-  printf("The initial TCP segment to send looks like:")
-  for(i = 0; i < 9; i++){
-	  printf(":::::: %d\n", i, cksum_arr[i]);
-  }
-//~~~~~SEND MESSAGE TO THE SERVER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
+  printf("The initial TCP segment to send looks like:\n");
+  printf("SRC Port:%d\n", cksum_arr[1]);
+  printf("DES Port:%d\n", cksum_arr[0]);
+  printf("SEQ  NUM:%d\n", cksum_arr[2]);
+  printf("ACK  NUM:%d\n", cksum_arr[3]);
+  printf("HDR FLAG:%d\n", cksum_arr[4]);
+  printf("REC  NUM:%d\n", cksum_arr[5]);
+  printf("CKSUMNUM:%d\n", cksum_arr[6]);
+  printf("PTR  NUM:%d\n", cksum_arr[7]);
+  printf("OPT  NUM:%d\n\n\n", cksum_arr[8]);
+
+//~~~~~SEND MESSAGE TO THE SERVER~~~~~~~~~//   
 
    n = send(sockfd, cksum_arr, 192,0);
    
@@ -101,15 +109,12 @@ int main(int argc, char *argv[]) {
       printf("ERROR while writing to the socket\n");
       exit(1);
    }
-   
- 
 //~~~~~~READING THE SERVER RESPONSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
    
    n = recv(sockfd,cksum_arr,16,0);
+   memcpy(cksum_arr, &cksum_arr, 24);
    
 //~~~~~~GENERATING TCP RESPONSE MESSAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-   memcpy(cksum_arr, &cksum_arr, 24);
    
 	tcp_seg.src = portno;
 	tcp_seg.des = cksum_arr[0];
@@ -120,9 +125,13 @@ int main(int argc, char *argv[]) {
 	tcp_seg.cksum = checksum(cksum_arr);
 	tcp_seg.ptr = 0;
 	tcp_seg.opt = 0;  
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//	
+	
+	memcpy(cksum_arr, &tcp_seg, 24);
+	n = send(sockfd, cksum_arr, 192,0);
 	
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
-   
    
    if (n < 0) {
       printf("ERROR while reading from the socket\n");
