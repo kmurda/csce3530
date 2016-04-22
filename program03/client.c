@@ -65,11 +65,6 @@ int main(int argc, char *argv[]) {
    }
    
    
-   /* Request for a message from the user; this will be relayed to the server*/
-   //printf("Please enter the message: ");
-   //bzero(buffer,256);
-   //fgets(buffer,255,stdin);
-   
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   struct tcp_hdr tcp_seg;
   unsigned short int cksum_arr[12];
@@ -80,7 +75,7 @@ int main(int argc, char *argv[]) {
   tcp_seg.des = portno;
   tcp_seg.seq = 7;
   tcp_seg.ack = 0;
-  tcp_seg.hdr_flags = 0x6002;
+  tcp_seg.hdr_flags = 0x5002;
   tcp_seg.rec = 0;
   tcp_seg.cksum = 0;
   tcp_seg.ptr = 0;
@@ -90,16 +85,7 @@ int main(int argc, char *argv[]) {
   
   memcpy(cksum_arr, &tcp_seg, 24);
   
-  printf("The initial TCP segment to send looks like:\n");
-  printf("SRC Port:%d\n", cksum_arr[1]);
-  printf("DES Port:%d\n", cksum_arr[0]);
-  printf("SEQ  NUM:%d\n", cksum_arr[2]);
-  printf("ACK  NUM:%d\n", cksum_arr[3]);
-  printf("HDR FLAG:%d\n", cksum_arr[4]);
-  printf("REC  NUM:%d\n", cksum_arr[5]);
-  printf("CKSUMNUM:%d\n", cksum_arr[6]);
-  printf("PTR  NUM:%d\n", cksum_arr[7]);
-  printf("OPT  NUM:%d\n\n\n", cksum_arr[8]);
+
 
 //~~~~~SEND MESSAGE TO THE SERVER~~~~~~~~~//   
 
@@ -108,39 +94,38 @@ int main(int argc, char *argv[]) {
    if (n < 0) {
       printf("ERROR while writing to the socket\n");
       exit(1);
-   }
+	} 
+  
+  printf("CLIENT SENT:\n");
+  printf("SRC Port:%d\n", cksum_arr[0]);
+  printf("DES Port:%d\n", cksum_arr[1]);
+  printf("SEQ  NUM:%d\n", cksum_arr[2]);
+  printf("ACK  NUM:%d\n", cksum_arr[3]);
+  printf("HDR FLAG:%d\n", cksum_arr[4]);
+  printf("REC  NUM:%d\n", cksum_arr[5]);
+  printf("CKSUMNUM:%d\n", cksum_arr[6]);
+  printf("PTR  NUM:%d\n", cksum_arr[7]);
+  printf("OPT  NUM:%d\n", cksum_arr[8]);
+  printf("\n\n");
+  
 //~~~~~~READING THE SERVER RESPONSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
    
    n = recv(sockfd,cksum_arr,16,0);
    memcpy(cksum_arr, &cksum_arr, 24);
-   
-//~~~~~~GENERATING TCP RESPONSE MESSAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-   
-	tcp_seg.src = portno;
-	tcp_seg.des = cksum_arr[0];
+     
+	/*tcp_seg.src = portno;
+	tcp_seg.des = 49200;
 	tcp_seg.seq = 2;
 	tcp_seg.ack = cksum_arr[2]+1;
-	tcp_seg.hdr_flags = 0x6012;
+	tcp_seg.hdr_flags = 0x5012;
 	tcp_seg.rec = 0;
 	tcp_seg.cksum = checksum(cksum_arr);
 	tcp_seg.ptr = 0;
-	tcp_seg.opt = 0;  
+	tcp_seg.opt = 0; */
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//	
-	
-	memcpy(cksum_arr, &tcp_seg, 24);
-	n = send(sockfd, cksum_arr, 192,0);
-	
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
-   
-   if (n < 0) {
-      printf("ERROR while reading from the socket\n");
-      exit(1);
-   }
-	
-   //printf("%s\n",buffer);
-	printf("SRC Port:%d\n", cksum_arr[1]);
-	printf("DES Port:%d\n", cksum_arr[0]);
+	printf("CLIENT RECIEVED:\n");
+	printf("SRC Port:%d\n", cksum_arr[0]);
+	printf("DES Port:%d\n", cksum_arr[1]);
 	printf("SEQ  NUM:%d\n", cksum_arr[2]);
 	printf("ACK  NUM:%d\n", cksum_arr[3]);
 	printf("HDR FLAG:%d\n", cksum_arr[4]);
@@ -148,7 +133,41 @@ int main(int argc, char *argv[]) {
 	printf("CKSUMNUM:%d\n", cksum_arr[6]);
 	printf("PTR  NUM:%d\n", cksum_arr[7]);
 	printf("OPT  NUM:%d\n", cksum_arr[8]);
+	printf("\n\n");
+	
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//	
+	
+    tcp_seg.src = portno;
+	tcp_seg.des = cksum_arr[0];
+	tcp_seg.seq = 8;
+	tcp_seg.ack = 64;
+	tcp_seg.hdr_flags = 0x5012;
+	tcp_seg.rec = 0;
+	tcp_seg.cksum = checksum(cksum_arr);
+	tcp_seg.ptr = 0;
+	tcp_seg.opt = 0;  
+	
+	memcpy(cksum_arr, &tcp_seg, 24);
+	n = send(sockfd, cksum_arr, 192,0);
+	
+  printf("CLIENT SENT:\n");
+  printf("SRC Port:%d\n", cksum_arr[1]);
+  printf("DES Port:%d\n", cksum_arr[0]);
+  printf("SEQ  NUM:%d\n", cksum_arr[2]);
+  printf("ACK  NUM:%d\n", cksum_arr[3]);
+  printf("HDR FLAG:%d\n", cksum_arr[4]);
+  printf("REC  NUM:%d\n", cksum_arr[5]);
+  printf("CKSUMNUM:%d\n", cksum_arr[6]);
+  printf("PTR  NUM:%d\n", cksum_arr[7]);
+  printf("OPT  NUM:%d\n", cksum_arr[8]);
+  printf("\n\n");
+	
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//   
    
+   if (n < 0) {
+      printf("ERROR while reading from the socket\n");
+      exit(1);
+   }
    
    return 0;
 }

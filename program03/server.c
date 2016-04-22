@@ -81,6 +81,7 @@ int main( int argc, char *argv[] ) {
    
 
 //~~~~~~~~RECIEVE & PRINT THE CONNECTION REQUEST SEGMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~// 
+  
    n = recv(newsockfd,cksum_arr,16,0);
    memcpy(cksum_arr, &cksum_arr, 24);
    
@@ -89,7 +90,7 @@ int main( int argc, char *argv[] ) {
       exit(1);
    }   
    
-    printf("The recieved TCP segment looks like: \n");
+    printf("SERVER RECIEVED: \n");
 	printf("SRC Port:  %d\n", cksum_arr[0]);
 	printf("DES Port:  %d\n", cksum_arr[1]);
 	printf("SEQ  NUM:  %d\n", cksum_arr[2]);
@@ -99,23 +100,32 @@ int main( int argc, char *argv[] ) {
 	printf("CKSUMNUM:  %d\n", cksum_arr[6]);
 	printf("PTR  NUM:  %d\n", cksum_arr[7]);
 	printf("OPT  NUM:  %d\n", cksum_arr[8]);
+	printf("\n\n");
    
  
 //~~~~~~~~~~~~POPULATING THE RESPONSE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//  
+	
+	
 	tcp_seg.src = portno;
 	tcp_seg.des = cksum_arr[0];
-	tcp_seg.seq = 2;
-	tcp_seg.ack = cksum_arr[2]+1;
-	tcp_seg.hdr_flags = 0x6012;
+	tcp_seg.seq = 63;
+	tcp_seg.ack = 8;
+	tcp_seg.hdr_flags = 0x5012;
 	tcp_seg.rec = 0;
 	tcp_seg.cksum = checksum(cksum_arr);
 	tcp_seg.ptr = 0;
 	tcp_seg.opt = 0; 
 	
+	memset(cksum_arr, 0, 192);
 	memcpy(cksum_arr, &tcp_seg, 24); 
 
-//~~~~~~~~~~~~PRINT THE RESPONSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~// 
-	printf("The generated TCP response looks like:\n");
+	
+	if (n < 0) {
+    printf("ERROR writing to socket\n");
+    exit(1);
+	}
+	
+	printf("SERVER SENT:\n");
 	printf("SRC Port:  %d\n", cksum_arr[0]);
 	printf("DES Port:  %d\n", cksum_arr[1]);
 	printf("SEQ  NUM:  %d\n", cksum_arr[2]);
@@ -125,17 +135,32 @@ int main( int argc, char *argv[] ) {
 	printf("CKSUMNUM:  %d\n", cksum_arr[6]);
 	printf("PTR  NUM:  %d\n", cksum_arr[7]);
 	printf("OPT  NUM:  %d\n", cksum_arr[8]);
-   
-//~~~~~~~~/* Write a response to the client */~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-   
-   n = send(newsockfd, cksum_arr, 192,0);
+	printf("\n\n");
+    
+	n = send(newsockfd, cksum_arr, 192,0); 
    
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ // 
  
+    n = recv(newsockfd,cksum_arr,16,0);
+    memcpy(cksum_arr, &cksum_arr, 24);
+   
    if (n < 0) {
-      printf("ERROR writing to socket\n");
+      printf("ERROR reading from socket\n");
       exit(1);
-   }
+   }   
+   
+    printf("SERVER RECIEVED: \n");
+	printf("SRC Port:  %d\n", cksum_arr[0]);
+	printf("DES Port:  %d\n", cksum_arr[1]);
+	printf("SEQ  NUM:  %d\n", cksum_arr[2]);
+	printf("ACK  NUM:  %d\n", cksum_arr[3]);
+	printf("HDR FLAG:  %d\n", cksum_arr[4]);
+	printf("REC  NUM:  %d\n", cksum_arr[5]);
+	printf("CKSUMNUM:  %d\n", cksum_arr[6]);
+	printf("PTR  NUM:  %d\n", cksum_arr[7]);
+	printf("OPT  NUM:  %d\n", cksum_arr[8]);
+	printf("\n\n");
+ 
       
    return 0;
 }
