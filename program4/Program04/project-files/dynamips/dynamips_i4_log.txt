@@ -1,0 +1,41 @@
+May 04 19:24:07.130 HYPERVISOR: Release 0.2.14-x86/Windows (tag 2014092320)
+May 04 19:24:07.131 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 53709.
+May 04 19:24:07.245 HYPERVISOR: exec_cmd: hypervisor version 
+May 04 19:24:07.254 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\Edmun\GNS3\projects\Program04\project-files\dynamips 
+May 04 19:24:07.819 GENERAL: working_dir=C:\Users\Edmun\GNS3\projects\Program04\project-files\dynamips
+May 04 19:24:07.865 HYPERVISOR: exec_cmd: vm create R4 4 c3745 
+May 04 19:24:07.868 VM: VM R4 created.
+May 04 19:24:07.893 HYPERVISOR: exec_cmd: vm set_con_tcp_port R4 2003 
+May 04 19:24:07.915 HYPERVISOR: exec_cmd: c3745 get_mac_addr R4 
+May 04 19:24:07.937 HYPERVISOR: exec_cmd: vm set_disk0 R4 0 
+May 04 19:24:07.959 HYPERVISOR: exec_cmd: vm set_ios R4 C:/Users/Edmun/GNS3/images/IOS/c3745-adventerprisek.124-25d.image 
+May 04 19:24:07.982 HYPERVISOR: exec_cmd: vm slot_add_binding R4 0 16 WIC-2T 
+May 04 19:24:08.005 HYPERVISOR: exec_cmd: vm get_status R4 
+May 04 19:24:08.027 HYPERVISOR: exec_cmd: vm slot_add_binding R4 1 0 NM-1FE-TX 
+May 04 19:24:08.050 HYPERVISOR: exec_cmd: vm set_nvram R4 256 
+May 04 19:24:08.072 HYPERVISOR: exec_cmd: c3745 set_mac_addr R4 c404.0564.0000 
+May 04 19:24:08.094 HYPERVISOR: exec_cmd: vm slot_add_binding R4 0 32 WIC-2T 
+May 04 19:24:08.117 HYPERVISOR: exec_cmd: vm set_exec_area R4 64 
+May 04 19:24:08.139 HYPERVISOR: exec_cmd: vm set_ram R4 256 
+May 04 19:24:08.163 HYPERVISOR: exec_cmd: vm set_config R4 configs/i4_startup-config.cfg 
+May 04 19:24:08.526 HYPERVISOR: exec_cmd: nio create_udp udp-ec4fad35-afbb-4e36-aefd-9f7375814873 10000 127.0.0.1 10001 
+May 04 19:24:08.568 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R4 0 33 udp-ec4fad35-afbb-4e36-aefd-9f7375814873 
+May 04 19:24:08.587 HYPERVISOR: exec_cmd: vm get_status R4 
+May 04 19:24:08.659 HYPERVISOR: exec_cmd: nio create_udp udp-7e79bb9c-bdfa-41ed-a1f5-99432d712b5a 10002 127.0.0.1 10003 
+May 04 19:24:08.679 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R4 0 32 udp-7e79bb9c-bdfa-41ed-a1f5-99432d712b5a 
+May 04 19:24:08.720 HYPERVISOR: exec_cmd: vm get_status R4 
+May 04 19:24:16.192 HYPERVISOR: exec_cmd: vm set_ghost_status R4 2 
+May 04 19:24:16.201 HYPERVISOR: exec_cmd: vm set_ghost_file R4 c3745-adventerprisek.124-25d.image-256.ghost 
+May 04 19:24:16.208 HYPERVISOR: exec_cmd: vm get_status R4 
+May 04 19:24:16.217 HYPERVISOR: exec_cmd: vm start R4 
+May 04 21:27:53.083 HYPERVISOR: exec_cmd: vm get_status R4 
+May 04 21:27:53.148 HYPERVISOR: exec_cmd: vm stop R4 
+May 04 21:27:53.266 VM: VM R4 shutdown.
+May 04 21:27:53.276 HYPERVISOR: exec_cmd: vm extract_config R4 
+May 04 21:29:42.931 HYPERVISOR: exec_cmd: vm get_status R4 
+May 04 21:29:42.961 HYPERVISOR: exec_cmd: vm extract_config R4 
+May 04 21:29:43.001 HYPERVISOR: exec_cmd: vm delete R4 
+May 04 21:29:43.001 VM: VM R4 destroyed.
+May 04 21:29:43.061 HYPERVISOR: exec_cmd: hypervisor stop 
+May 04 21:29:43.095 HYPERVISOR: Stopped.
+May 04 21:29:43.099 GENERAL: reset done.

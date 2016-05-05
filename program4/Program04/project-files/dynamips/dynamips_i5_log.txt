@@ -1,0 +1,41 @@
+May 04 19:24:07.139 HYPERVISOR: Release 0.2.14-x86/Windows (tag 2014092320)
+May 04 19:24:07.140 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 53710.
+May 04 19:24:07.252 HYPERVISOR: exec_cmd: hypervisor version 
+May 04 19:24:07.260 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\Edmun\GNS3\projects\Program04\project-files\dynamips 
+May 04 19:24:07.835 GENERAL: working_dir=C:\Users\Edmun\GNS3\projects\Program04\project-files\dynamips
+May 04 19:24:07.879 HYPERVISOR: exec_cmd: vm create R5 5 c3745 
+May 04 19:24:07.881 VM: VM R5 created.
+May 04 19:24:07.902 HYPERVISOR: exec_cmd: vm set_con_tcp_port R5 2004 
+May 04 19:24:07.924 HYPERVISOR: exec_cmd: c3745 get_mac_addr R5 
+May 04 19:24:07.946 HYPERVISOR: exec_cmd: vm set_disk0 R5 0 
+May 04 19:24:07.968 HYPERVISOR: exec_cmd: vm set_ios R5 C:/Users/Edmun/GNS3/images/IOS/c3745-adventerprisek.124-25d.image 
+May 04 19:24:07.991 HYPERVISOR: exec_cmd: vm slot_add_binding R5 0 16 WIC-2T 
+May 04 19:24:08.014 HYPERVISOR: exec_cmd: vm get_status R5 
+May 04 19:24:08.036 HYPERVISOR: exec_cmd: vm slot_add_binding R5 1 0 NM-1FE-TX 
+May 04 19:24:08.059 HYPERVISOR: exec_cmd: vm set_nvram R5 256 
+May 04 19:24:08.081 HYPERVISOR: exec_cmd: c3745 set_mac_addr R5 c405.2ca0.0000 
+May 04 19:24:08.103 HYPERVISOR: exec_cmd: vm slot_add_binding R5 0 32 WIC-2T 
+May 04 19:24:08.126 HYPERVISOR: exec_cmd: vm set_exec_area R5 64 
+May 04 19:24:08.149 HYPERVISOR: exec_cmd: vm set_ram R5 256 
+May 04 19:24:08.173 HYPERVISOR: exec_cmd: vm set_config R5 configs/i5_startup-config.cfg 
+May 04 19:24:08.907 HYPERVISOR: exec_cmd: nio create_udp udp-108aa5e1-304e-472a-acc6-7ec09b4baf4c 10009 127.0.0.1 10008 
+May 04 19:24:08.937 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R5 0 33 udp-108aa5e1-304e-472a-acc6-7ec09b4baf4c 
+May 04 19:24:08.978 HYPERVISOR: exec_cmd: vm get_status R5 
+May 04 19:24:09.090 HYPERVISOR: exec_cmd: nio create_udp udp-98e50996-fad5-42b2-8da0-36535124890c 10011 127.0.0.1 10010 
+May 04 19:24:09.116 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R5 0 32 udp-98e50996-fad5-42b2-8da0-36535124890c 
+May 04 19:24:09.129 HYPERVISOR: exec_cmd: vm get_status R5 
+May 04 19:24:16.172 HYPERVISOR: exec_cmd: vm set_ghost_status R5 2 
+May 04 19:24:16.181 HYPERVISOR: exec_cmd: vm set_ghost_file R5 c3745-adventerprisek.124-25d.image-256.ghost 
+May 04 19:24:16.189 HYPERVISOR: exec_cmd: vm get_status R5 
+May 04 19:24:16.197 HYPERVISOR: exec_cmd: vm start R5 
+May 04 21:27:53.078 HYPERVISOR: exec_cmd: vm get_status R5 
+May 04 21:27:53.142 HYPERVISOR: exec_cmd: vm stop R5 
+May 04 21:27:53.341 VM: VM R5 shutdown.
+May 04 21:27:53.409 HYPERVISOR: exec_cmd: vm extract_config R5 
+May 04 21:29:42.941 HYPERVISOR: exec_cmd: vm get_status R5 
+May 04 21:29:42.971 HYPERVISOR: exec_cmd: vm extract_config R5 
+May 04 21:29:43.021 HYPERVISOR: exec_cmd: vm delete R5 
+May 04 21:29:43.021 VM: VM R5 destroyed.
+May 04 21:29:43.081 HYPERVISOR: exec_cmd: hypervisor stop 
+May 04 21:29:43.095 HYPERVISOR: Stopped.
+May 04 21:29:43.102 GENERAL: reset done.

@@ -1,0 +1,51 @@
+May 04 19:24:08.334 HYPERVISOR: Release 0.2.14-x86/Windows (tag 2014092320)
+May 04 19:24:08.335 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 53721.
+May 04 19:24:08.355 HYPERVISOR: exec_cmd: hypervisor version 
+May 04 19:24:08.363 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\Edmun\GNS3\projects\Program04\project-files\dynamips 
+May 04 19:24:08.363 GENERAL: working_dir=C:\Users\Edmun\GNS3\projects\Program04\project-files\dynamips
+May 04 19:24:08.371 HYPERVISOR: exec_cmd: vm create R6 6 c3745 
+May 04 19:24:08.373 VM: VM R6 created.
+May 04 19:24:08.388 HYPERVISOR: exec_cmd: vm set_con_tcp_port R6 2005 
+May 04 19:24:08.420 HYPERVISOR: exec_cmd: c3745 get_mac_addr R6 
+May 04 19:24:08.456 HYPERVISOR: exec_cmd: vm set_disk0 R6 0 
+May 04 19:24:08.490 HYPERVISOR: exec_cmd: vm set_ios R6 C:/Users/Edmun/GNS3/images/IOS/c3745-adventerprisek.124-25d.image 
+May 04 19:24:08.504 HYPERVISOR: exec_cmd: vm slot_add_binding R6 0 16 WIC-2T 
+May 04 19:24:08.561 HYPERVISOR: exec_cmd: vm get_status R6 
+May 04 19:24:08.579 HYPERVISOR: exec_cmd: vm slot_add_binding R6 1 0 NM-1FE-TX 
+May 04 19:24:08.600 HYPERVISOR: exec_cmd: vm set_nvram R6 256 
+May 04 19:24:08.665 HYPERVISOR: exec_cmd: c3745 set_mac_addr R6 c406.1ce8.0000 
+May 04 19:24:08.710 HYPERVISOR: exec_cmd: vm slot_add_binding R6 0 32 WIC-2T 
+May 04 19:24:08.732 HYPERVISOR: exec_cmd: vm set_exec_area R6 64 
+May 04 19:24:08.767 HYPERVISOR: exec_cmd: vm set_ram R6 256 
+May 04 19:24:08.822 HYPERVISOR: exec_cmd: vm set_config R6 configs/i6_startup-config.cfg 
+May 04 19:24:09.175 HYPERVISOR: exec_cmd: nio create_udp udp-7ab67fee-5754-434d-9abd-1d1bef7a2f43 10013 127.0.0.1 10012 
+May 04 19:24:09.200 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R6 0 17 udp-7ab67fee-5754-434d-9abd-1d1bef7a2f43 
+May 04 19:24:09.210 HYPERVISOR: exec_cmd: vm get_status R6 
+May 04 19:24:14.286 HYPERVISOR: exec_cmd: vm create Ghost 0 c3745 
+May 04 19:24:14.287 VM: VM Ghost created.
+May 04 19:24:14.298 HYPERVISOR: exec_cmd: vm set_ios Ghost C:/Users/Edmun/GNS3/images/IOS/c3745-adventerprisek.124-25d.image 
+May 04 19:24:14.303 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+May 04 19:24:14.307 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost c3745-adventerprisek.124-25d.image-256.ghost 
+May 04 19:24:14.312 HYPERVISOR: exec_cmd: vm set_ram Ghost 256 
+May 04 19:24:14.318 HYPERVISOR: exec_cmd: vm get_status Ghost 
+May 04 19:24:14.323 HYPERVISOR: exec_cmd: vm start Ghost 
+May 04 19:24:15.768 HYPERVISOR: exec_cmd: vm get_status Ghost 
+May 04 19:24:15.774 HYPERVISOR: exec_cmd: vm stop Ghost 
+May 04 19:24:16.114 VM: VM Ghost shutdown.
+May 04 19:24:16.120 HYPERVISOR: exec_cmd: vm clean_delete Ghost 
+May 04 19:24:16.120 VM: VM Ghost destroyed.
+May 04 19:24:16.159 HYPERVISOR: exec_cmd: vm set_ghost_status R6 2 
+May 04 19:24:16.163 HYPERVISOR: exec_cmd: vm set_ghost_file R6 c3745-adventerprisek.124-25d.image-256.ghost 
+May 04 19:24:16.168 HYPERVISOR: exec_cmd: vm get_status R6 
+May 04 19:24:16.176 HYPERVISOR: exec_cmd: vm start R6 
+May 04 19:48:57.126 HYPERVISOR: exec_cmd: vm rename R6 R7 
+May 04 21:27:53.073 HYPERVISOR: exec_cmd: vm get_status R6 
+May 04 21:27:53.115 HYPERVISOR: exec_cmd: vm stop R6 
+May 04 21:27:53.289 VM: VM R6 shutdown.
+May 04 21:27:53.305 HYPERVISOR: exec_cmd: vm extract_config R6 
+May 04 21:29:42.941 HYPERVISOR: exec_cmd: vm get_status R6 
+May 04 21:29:42.971 HYPERVISOR: exec_cmd: vm extract_config R6 
+May 04 21:29:43.031 HYPERVISOR: exec_cmd: vm delete R6 
+May 04 21:29:43.071 HYPERVISOR: exec_cmd: hypervisor stop 
+May 04 21:29:43.093 HYPERVISOR: Stopped.
+May 04 21:29:43.102 GENERAL: reset done.
